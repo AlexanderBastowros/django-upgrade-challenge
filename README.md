@@ -4,12 +4,7 @@ A multi-vendor marketplace backend built with Django and Django REST Framework.
 Users register, open stores, list products, and buy from each other. Everything
 they do is recorded in an activity log.
 
-> **This repository is an upgrade exercise.** Its dependencies are frozen at
-> an early-2022 snapshot (Django 3.2, DRF 3.13, drf-spectacular 0.21, Python 3.10).
-> The task is to bring it up to current releases while keeping the behaviour
-> and the API contract intact. See [The upgrade task](#the-upgrade-task).
-
-## Stack (as pinned)
+## Stack
 
 | Package | Version |
 |---|---|
@@ -139,7 +134,7 @@ return `409 Conflict` with `{"detail": ..., "code": ...}`.
 
 ## Quality gates
 
-These must all pass, before and after the upgrade:
+CI runs the same checks on every push and pull request:
 
 ```bash
 make ci
@@ -154,29 +149,6 @@ That runs:
    - `tests/test_schema.py`: the documented API surface must match
      `tests/snapshots/api_surface.txt` exactly. Every operation must be tagged
      and have a 2xx response, and the enum component names must stay stable.
-
-## The upgrade task
-
-Upgrade to the latest supported releases of Python, Django, DRF,
-drf-spectacular, django-filter, simplejwt, django-cors-headers, Pillow and the
-test tooling.
-
-**Done means:**
-
-- [ ] `requirements*.txt` pin current versions; Python ≥ 3.12
-- [ ] `make ci` passes
-- [ ] The test suite passes **without editing assertions about API behaviour**.
-      Fixing tests that use removed *testing* APIs is fine.
-- [ ] The API surface snapshot is unchanged (no endpoint lost or added)
-- [ ] `python -W error::DeprecationWarning -m pytest` passes (stretch goal)
-- [ ] Migrations apply cleanly **on a database created by the old version**:
-      run `migrate` and `seed_demo` with the old pins, switch to the new pins,
-      then `migrate` again
-- [ ] No behaviour regressions in what the old suite did not cover
-
-Expect problems at import time, at system-check time, in migrations, at runtime,
-and in tests. Some only appear on specific code paths. The tests are there
-to catch those.
 
 ## License
 
