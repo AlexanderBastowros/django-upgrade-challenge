@@ -13,7 +13,7 @@ class TestUsers:
         resp = client_user.get("/api/v1/users/")
         assert resp.status_code == 200
         assert resp.data["count"] == 2
-        assert "email" not in resp.data["results"][0]  # public serializer
+        assert "email" not in resp.data["results"][0]
 
         resp = client_user.get("/api/v1/users/%s/" % other_user.pk)
         assert resp.data["username"] == "bob"
@@ -50,7 +50,7 @@ class TestUsers:
     def test_follow_unfollow_flow(self, client_user, user, other_user):
         resp = client_user.post("/api/v1/users/%s/follow/" % other_user.pk)
         assert resp.status_code == 201
-        assert client_user.post("/api/v1/users/%s/follow/" % other_user.pk).status_code == 200  # idempotent
+        assert client_user.post("/api/v1/users/%s/follow/" % other_user.pk).status_code == 200
         assert Notification.objects.filter(recipient=other_user).count() == 1
 
         followers = client_user.get("/api/v1/users/%s/followers/" % other_user.pk)

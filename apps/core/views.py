@@ -19,7 +19,7 @@ class HealthView(APIView):
             with connection.cursor() as cursor:
                 cursor.execute("SELECT 1")
             db_ok = True
-        except Exception:  # pragma: no cover - defensive
+        except Exception:
             db_ok = False
         data = {
             "status": "ok" if db_ok else "degraded",

@@ -91,7 +91,7 @@ class TestCheckout:
 
     def test_checkout_with_coupon(self, client_user, cart, product):
         CouponFactory(code="TENOFF", value="10")
-        CartItem.objects.create(cart=cart, product=product, quantity=8)  # 100.00 -> free shipping
+        CartItem.objects.create(cart=cart, product=product, quantity=8)
         resp = client_user.post("/api/v1/carts/%s/checkout/" % cart.pk, {"coupon_code": "tenoff"})
         assert resp.status_code == 201, resp.data
         assert resp.data["coupon_code"] == "TENOFF"
@@ -163,7 +163,7 @@ class TestOrders:
         resp = client_user.post("/api/v1/orders/", {"items": [{"product": product.pk, "quantity": 11}]})
         assert resp.status_code == 409 and resp.data["code"] == "insufficient_stock"
         product.refresh_from_db()
-        assert product.stock == 10  # transaction rolled back
+        assert product.stock == 10
 
     def test_empty_items(self, client_user):
         assert client_user.post("/api/v1/orders/", {"items": []}).status_code == 400

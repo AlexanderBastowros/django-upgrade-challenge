@@ -51,7 +51,7 @@ class TestStores:
         assert client_user.post("/api/v1/stores/", {"name": "Nope"}).status_code == 400
         resp = client_seller.post("/api/v1/stores/", {"name": "Sam's Second Shop", "status": "active"})
         assert resp.status_code == 201
-        assert resp.data["status"] == "pending"  # read-only, needs staff approval
+        assert resp.data["status"] == "pending"
         assert resp.data["owner"]["id"] == seller.pk
 
     def test_pending_store_hidden_from_public(self, api_client, client_seller, seller):
@@ -178,7 +178,7 @@ class TestProducts:
         resp = client_seller.put("/api/v1/products/%s/" % product.pk, self.payload(store, title="Blue Mug XL", price="15.00"))
         assert resp.status_code == 200, resp.data
         assert resp.data["title"] == "Blue Mug XL"
-        assert resp.data["slug"] == product.slug  # slug is stable
+        assert resp.data["slug"] == product.slug
 
 
 class TestProductImages:

@@ -29,7 +29,6 @@ DEBUG = env_bool("DJANGO_DEBUG", True)
 
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,testserver")
 
-# Hostnames only -- the frontend is always served over https.
 CSRF_TRUSTED_ORIGINS = env_list(
     "DJANGO_CSRF_TRUSTED_ORIGINS", "app.marketplace.local,admin.marketplace.local"
 )
@@ -41,13 +40,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # third party
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
     "django_filters",
     "drf_spectacular",
     "corsheaders",
-    # local
     "apps.core",
     "apps.accounts",
     "apps.catalog",
@@ -109,8 +106,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# Legacy SHA1 hasher kept so accounts imported from the old PHP shop can
-# still log in (their hashes get upgraded on first login).
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",
     "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
@@ -125,7 +120,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Timezone used when rendering "business day" boundaries for reports.
 MARKETPLACE_BUSINESS_TIMEZONE = os.environ.get("MARKETPLACE_TZ", "America/New_York")
 
 STATIC_URL = "/static/"
@@ -136,16 +130,13 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
-# Storage used for product images. Swappable for S3 in production.
 PRODUCT_IMAGE_STORAGE = os.environ.get(
     "PRODUCT_IMAGE_STORAGE", "django.core.files.storage.FileSystemStorage"
 )
 
-# --- CORS -------------------------------------------------------------------
 CORS_ORIGIN_ALLOW_ALL = env_bool("CORS_ALLOW_ALL", DEBUG)
 CORS_ORIGIN_WHITELIST = env_list("CORS_ORIGINS", "http://localhost:3000")
 
-# --- Django REST Framework ---------------------------------------------------
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -213,7 +204,6 @@ SPECTACULAR_SETTINGS = {
     ],
 }
 
-# --- Marketplace business settings ------------------------------------------
 MARKETPLACE = {
     "ORDER_NUMBER_PREFIX": "MP",
     "MAX_CART_ITEMS": 50,
@@ -234,6 +224,4 @@ LOGGING = {
     },
 }
 
-# NullBooleanField is still the right type for our tri-state flags; the
-# deprecation is noise until we schedule the Django 4 work.
 SILENCED_SYSTEM_CHECKS = ["fields.W903"]

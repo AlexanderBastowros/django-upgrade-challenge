@@ -84,7 +84,7 @@ def test_update_me(client_user):
     resp = client_user.patch("/api/v1/auth/me/", {"display_name": "Alice L.", "username": "hacker"})
     assert resp.status_code == 200
     assert resp.data["display_name"] == "Alice L."
-    assert resp.data["username"] == "alice"  # read-only
+    assert resp.data["username"] == "alice"
 
 
 def test_change_password(client_user, user):

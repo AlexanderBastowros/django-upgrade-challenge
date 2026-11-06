@@ -33,7 +33,7 @@ def test_money_rounding():
 def test_start_of_business_day():
     start = utils.start_of_business_day(datetime.date(2022, 1, 15))
     assert start.tzinfo is not None
-    assert start.astimezone(datetime.timezone.utc).hour == 5  # EST is UTC-5
+    assert start.astimezone(datetime.timezone.utc).hour == 5
 
 
 def test_format_report_date():
@@ -81,7 +81,7 @@ def test_seed_demo_command():
     call_command("seed_demo", buyers=2, sellers=2, verbosity=0)
     assert Product.objects.count() == 10
     assert all(p.tags.count() == 2 for p in Product.objects.all())
-    call_command("seed_demo", buyers=2, sellers=2, verbosity=0)  # idempotent
+    call_command("seed_demo", buyers=2, sellers=2, verbosity=0)
     assert Product.objects.count() == 10
 
 

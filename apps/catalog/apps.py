@@ -7,4 +7,4 @@ class CatalogConfig(AppConfig):
     verbose_name = "Catalog"
 
     def ready(self):
-        from . import receivers  # noqa: F401
+        from . import receivers

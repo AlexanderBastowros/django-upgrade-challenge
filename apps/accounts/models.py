@@ -69,7 +69,6 @@ class Profile(TimeStampedModel):
     location = models.CharField(max_length=120, blank=True)
     preferred_currency = models.CharField(max_length=3, choices=Currency.choices, default=Currency.USD)
     timezone = models.CharField(max_length=64, default="UTC")
-    # None = user has never answered the marketing consent prompt.
     marketing_opt_in = models.NullBooleanField(_("marketing opt-in"))
     social_links = models.JSONField(default=dict, blank=True)
 

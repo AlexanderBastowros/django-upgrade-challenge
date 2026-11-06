@@ -236,7 +236,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         )
-        # slug is generated from the title (unique per store) and never changes
         read_only_fields = ("id", "slug", "status", "published_at", "created_at", "updated_at")
 
     def get_share_url(self, obj) -> str:

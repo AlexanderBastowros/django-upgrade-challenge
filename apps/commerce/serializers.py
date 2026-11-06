@@ -41,7 +41,7 @@ class CartItemSerializer(serializers.ModelSerializer):
             "created_at",
         )
         read_only_fields = ("id", "created_at")
-        validators = []  # uniqueness is handled by merging quantities in the view
+        validators = []
 
     def validate_cart(self, cart):
         if cart.user_id != self.context["request"].user.id:

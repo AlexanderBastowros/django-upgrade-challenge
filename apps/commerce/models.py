@@ -162,7 +162,6 @@ class Order(TimeStampedModel):
     shipping_total = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
     total = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
     notes = models.TextField(blank=True)
-    # None = buyer has not said; True/False = explicit gift-wrap choice.
     gift_wrap = models.NullBooleanField()
     placed_at = models.DateTimeField(null=True, blank=True)
     paid_at = models.DateTimeField(null=True, blank=True)

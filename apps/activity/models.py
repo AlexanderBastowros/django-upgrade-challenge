@@ -37,7 +37,6 @@ class UserAction(models.Model):
         LOGGED_IN = "logged_in", _("Logged in")
         CUSTOM = "custom", _("Custom")
 
-    # Verbs a client is allowed to submit directly via the API.
     CLIENT_VERBS = (Verb.VIEWED, Verb.SEARCHED, Verb.CLICKED, Verb.SHARED, Verb.CUSTOM)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="actions")

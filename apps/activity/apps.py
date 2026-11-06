@@ -7,4 +7,4 @@ class ActivityConfig(AppConfig):
     verbose_name = "Activity"
 
     def ready(self):
-        from . import receivers  # noqa: F401
+        from . import receivers

@@ -8,11 +8,10 @@ django-cors-headers==3.11.0
 pytz==2021.3
 Pillow==9.0.1
 
-# Transitive dependencies
 asgiref==3.5.0
 sqlparse==0.4.2
 PyYAML==6.0
 jsonschema==4.4.0
 uritemplate==4.1.1
 inflection==0.5.1
-setuptools==60.9.3  # simplejwt 4.x imports pkg_resources at runtime
+setuptools==60.9.3

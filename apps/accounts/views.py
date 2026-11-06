@@ -88,7 +88,6 @@ class RequestEmailVerificationView(generics.GenericAPIView):
 
     @extend_schema(request=None, responses={200: EmailVerificationTokenSerializer})
     def post(self, request):
-        # A real deployment e-mails this; we return it so the frontend team can test.
         token = request.user.make_email_verification_token()
         return Response({"token": token, "detail": "Verification token issued."})
 
