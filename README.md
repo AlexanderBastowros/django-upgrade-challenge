@@ -177,3 +177,7 @@ test tooling.
 Expect problems at import time, at system-check time, in migrations, at runtime,
 and in tests. Some only appear on specific code paths. The tests are there
 to catch those.
+
+## License
+
+[MIT](LICENSE)
