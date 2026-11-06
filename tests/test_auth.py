@@ -13,22 +13,22 @@ def test_register_creates_user_and_profile(api_client):
         {
             "username": "newbie",
             "email": "Newbie@Example.com",
-            "password": "correct-horse-9",
-            "password_confirm": "correct-horse-9",
+            "password": "dummy-register-password",
+            "password_confirm": "dummy-register-password",
             "accept_marketing": True,
         },
     )
     assert resp.status_code == 201, resp.data
     user = User.objects.get(username="newbie")
     assert user.email == "newbie@example.com"
-    assert user.check_password("correct-horse-9")
+    assert user.check_password("dummy-register-password")
     assert Profile.objects.get(user=user).marketing_opt_in is True
 
 
 def test_register_marketing_unanswered_stays_null(api_client):
     resp = api_client.post(
         REGISTER,
-        {"username": "quiet", "email": "q@example.com", "password": "correct-horse-9", "password_confirm": "correct-horse-9"},
+        {"username": "quiet", "email": "q@example.com", "password": "dummy-register-password", "password_confirm": "dummy-register-password"},
     )
     assert resp.status_code == 201
     assert Profile.objects.get(user__username="quiet").marketing_opt_in is None
@@ -50,14 +50,14 @@ def test_register_rejects_mismatched_and_weak_passwords(api_client):
 def test_register_rejects_duplicate_email(api_client, user):
     resp = api_client.post(
         REGISTER,
-        {"username": "dupe", "email": user.email.upper(), "password": "correct-horse-9", "password_confirm": "correct-horse-9"},
+        {"username": "dupe", "email": user.email.upper(), "password": "dummy-register-password", "password_confirm": "dummy-register-password"},
     )
     assert resp.status_code == 400
     assert "email" in resp.data
 
 
 def test_jwt_obtain_refresh_verify_and_use(api_client, user):
-    resp = api_client.post("/api/v1/auth/token/", {"username": "alice", "password": "s3cret-pass!"})
+    resp = api_client.post("/api/v1/auth/token/", {"username": "alice", "password": "dummy-test-password"})
     assert resp.status_code == 200, resp.data
     access, refresh = resp.data["access"], resp.data["refresh"]
 
@@ -89,15 +89,15 @@ def test_update_me(client_user):
 
 def test_change_password(client_user, user):
     resp = client_user.post(
-        "/api/v1/auth/password/change/", {"old_password": "wrong", "new_password": "brand-new-pass-1"}
+        "/api/v1/auth/password/change/", {"old_password": "wrong", "new_password": "dummy-new-password"}
     )
     assert resp.status_code == 400
     resp = client_user.post(
-        "/api/v1/auth/password/change/", {"old_password": "s3cret-pass!", "new_password": "brand-new-pass-1"}
+        "/api/v1/auth/password/change/", {"old_password": "dummy-test-password", "new_password": "dummy-new-password"}
     )
     assert resp.status_code == 200
     user.refresh_from_db()
-    assert user.check_password("brand-new-pass-1")
+    assert user.check_password("dummy-new-password")
 
 
 def test_email_verification_roundtrip(client_user, api_client, user):
@@ -110,12 +110,12 @@ def test_email_verification_roundtrip(client_user, api_client, user):
 
 
 def test_logout_blacklists_refresh_token(api_client, client_user, user):
-    tokens = api_client.post("/api/v1/auth/token/", {"username": "alice", "password": "s3cret-pass!"}).data
+    tokens = api_client.post("/api/v1/auth/token/", {"username": "alice", "password": "dummy-test-password"}).data
     assert client_user.post("/api/v1/auth/logout/", {"refresh": tokens["refresh"]}).status_code == 205
     resp = api_client.post("/api/v1/auth/token/refresh/", {"refresh": tokens["refresh"]})
     assert resp.status_code == 401
 
 
 def test_cannot_logout_someone_elses_token(api_client, client_other, user):
-    tokens = api_client.post("/api/v1/auth/token/", {"username": "alice", "password": "s3cret-pass!"}).data
+    tokens = api_client.post("/api/v1/auth/token/", {"username": "alice", "password": "dummy-test-password"}).data
     assert client_other.post("/api/v1/auth/logout/", {"refresh": tokens["refresh"]}).status_code == 400

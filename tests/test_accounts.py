@@ -30,11 +30,11 @@ class TestUsers:
         assert client_user.patch("/api/v1/users/%s/" % other_user.pk, {"display_name": "B"}).status_code == 403
 
     def test_only_staff_can_create_and_delete(self, client_user, client_staff, other_user):
-        payload = {"username": "made", "email": "made@example.com", "password": "pw-123456789"}
+        payload = {"username": "made", "email": "made@example.com", "password": "dummy-admin-created-password"}
         assert client_user.post("/api/v1/users/", payload).status_code == 403
         resp = client_staff.post("/api/v1/users/", payload)
         assert resp.status_code == 201, resp.data
-        assert User.objects.get(username="made").check_password("pw-123456789")
+        assert User.objects.get(username="made").check_password("dummy-admin-created-password")
 
         assert client_user.delete("/api/v1/users/%s/" % other_user.pk).status_code == 403
         assert client_staff.delete("/api/v1/users/%s/" % other_user.pk).status_code == 204

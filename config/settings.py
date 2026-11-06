@@ -22,7 +22,7 @@ def env_list(name, default=""):
 
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
-    "django-insecure-dev-only-change-me-0f3b6c1e9a5d4e7f8a2b",
+    "django-insecure-DUMMY-secret-key-for-local-development-only",
 )
 
 DEBUG = env_bool("DJANGO_DEBUG", True)

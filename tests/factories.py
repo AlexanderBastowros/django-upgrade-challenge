@@ -18,7 +18,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     username = factory.Sequence(lambda n: "user%d" % n)
     email = factory.LazyAttribute(lambda o: "%s@example.com" % o.username)
     display_name = factory.LazyAttribute(lambda o: o.username.title())
-    password = factory.PostGenerationMethodCall("set_password", "s3cret-pass!")
+    password = factory.PostGenerationMethodCall("set_password", "dummy-test-password")
 
 
 class SellerFactory(UserFactory):

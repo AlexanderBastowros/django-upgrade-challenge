@@ -9,7 +9,7 @@ from apps.catalog.models import Category, Product, Review, Store, Tag
 from apps.commerce import services
 from apps.commerce.models import Coupon
 
-DEMO_PASSWORD = "demo-pass-123"
+DEMO_PASSWORD = "dummy-demo-password"
 
 PRODUCT_NAMES = [
     "Ceramic Mug", "Walnut Cutting Board", "Linen Apron", "Beeswax Candle", "Leather Wallet",

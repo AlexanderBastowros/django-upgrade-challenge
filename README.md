@@ -44,7 +44,7 @@ python3.10 -m venv .venv
 - Swagger UI: http://127.0.0.1:8000/api/docs/
 - ReDoc: http://127.0.0.1:8000/api/redoc/
 - OpenAPI document: http://127.0.0.1:8000/api/schema/
-- Admin: http://127.0.0.1:8000/admin/ (seeded `admin` / `demo-pass-123`)
+- Admin: http://127.0.0.1:8000/admin/ (seeded `admin` / `dummy-demo-password`)
 
 The `Makefile` wraps the same steps (`make install migrate seed run`, `make ci`).
 
